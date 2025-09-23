@@ -45,18 +45,29 @@ contract StakeManager {
         emit Staked(msg.sender, amount);
     }
 
-    // called by special caller to burn a portion of a user's stake
-    function burnFromStake(address who, uint256 amount) external onlySpecial {
-      require(stakes[who] >= amount, "not enough stake");
-      stakes[who] -= amount;
-      // burn tokens held by this contract
-      token.burn(address(this), amount);
-      emit BurnedFromStake(who, amount);
+    function unstake(uint256 amount) external {
+        require(amount > 0, "zero");
+        require(stakes[msg.sender] >= amount, "not enough stake");
+
+        stakes[msg.sender] -= amount;
+        stakeToken.transfer(msg.sender, amount);
+        emit Unstaked(msg.sender, amount);
     }
 
 
+    // called by special caller to burn a portion of a user's stake
+    function burnFromStake(address who, uint256 amount) external onlySpecialCaller {
+        require(stakes[who] >= amount, "not enough stake");
+        stakes[who] -= amount;
+        // burn tokens held by this contract
+        stakeToken.burn(address(this), amount);
+        emit BurnedFromStake(who, amount);
+    }
+
+
+
     // emits the event AddressTagged which the subgraph will watch
-    function tagAddress(address addr, string calldata source) external onlySpecial {
+    function tagAddress(address addr, string calldata source) external onlySpecialCaller {
       emit AddressTagged(addr, source);
     }
 }

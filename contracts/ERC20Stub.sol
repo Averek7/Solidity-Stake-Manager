@@ -5,9 +5,8 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
 
 contract ERC20Stub is Context, IERC20 {
-    constructor(string memory name, string memory symbol) ERC20(name, symbol) {
-      
-    }
+    // constructor(string memory name, string memory symbol) ERC20(name, symbol) {}
+    
     string public name = "Stub Token";
     string public symbol = "STUB";
     uint8 public decimals = 18;

@@ -5,18 +5,24 @@ const { ethers } = await network.connect({
   chainType: "op",
 });
 
-console.log("Sending transaction using the OP chain type");
+async function main() {
+  const [deployer] = await ethers.getSigners();
+  console.log("Deploying contracts with:", deployer.address);
 
-const [sender] = await ethers.getSigners();
+  // Deploy ERC20Stub
+  const ERC20 = await ethers.getContractFactory("ERC20Stub");
+  const erc = await ERC20.deploy();
+  await erc.waitForDeployment();
+  console.log("ERC20Stub deployed to:", await erc.getAddress());
 
-console.log("Sending 1 wei from", sender.address, "to itself");
+  // Deploy StakeManager
+  const Stake = await ethers.getContractFactory("StakeManager");
+  const stake = await Stake.deploy(await erc.getAddress());
+  await stake.waitForDeployment();
+  console.log("StakeManager deployed to:", await stake.getAddress());
+}
 
-console.log("Sending L2 transaction");
-const tx = await sender.sendTransaction({
-  to: sender.address,
-  value: 1n,
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
 });
-
-await tx.wait();
-
-console.log("Transaction sent successfully");
