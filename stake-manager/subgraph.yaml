@@ -36,3 +36,26 @@ dataSources:
         - event: Unstaked(indexed address,uint256)
           handler: handleUnstaked
       file: ./src/stake-manager.ts
+  - kind: ethereum
+    name: ERC20Stub
+    network: arbitrum-sepolia
+    source:
+      address: "0x6c26e052d97dbE6763643E14FB8C9A23Ef32C7EE"
+      abi: ERC20Stub
+      startBlock: 197284021
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - Transfer
+      abis:
+        - name: ERC20Stub
+          file: ./abis/ERC20Stub.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/erc-20-stub.ts

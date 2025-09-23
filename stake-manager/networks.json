@@ -3,6 +3,9 @@
     "StakeManager": {
       "address": "0xe1931272dDbaC1110575c0762F3FDB845e6d4A74",
       "startBlock": 197284034
+    },
+    "ERC20Stub": {
+      "address": "0x6c26e052d97dbE6763643E14FB8C9A23Ef32C7EE"
     }
   }
 }
