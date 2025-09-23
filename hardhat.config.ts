@@ -4,7 +4,7 @@ import type { HardhatUserConfig } from "hardhat/config";
 import hardhatToolboxMochaEthersPlugin from "@nomicfoundation/hardhat-toolbox-mocha-ethers";
 
 dotenv.config();
-const { API_URL, PRIVATE_KEY } = process.env;
+const { API_KEY, PRIVATE_KEY } = process.env;
 
 const config: HardhatUserConfig = {
   plugins: [hardhatToolboxMochaEthersPlugin],
@@ -36,7 +36,7 @@ const config: HardhatUserConfig = {
     sepolia: {
       type: "http",
       chainType: "l1",
-      url: API_URL ? API_URL : "",
+      url: API_KEY ? `https://arb-sepolia.g.alchemy.com/v2/${API_KEY}` : "",
       accounts: PRIVATE_KEY ? [`0x${PRIVATE_KEY}`] : [],
     },
   },
