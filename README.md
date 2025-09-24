@@ -68,7 +68,7 @@ await stakeManager.burnStaker("0xStakerAddress", ethers.utils.parseEther("50"), 
 
 ---
 
-## 7. 6. Subgraph
+## 7. Subgraph
 
 - Subgraph indexes AddressTagged events.
 
@@ -76,3 +76,5 @@ await stakeManager.burnStaker("0xStakerAddress", ethers.utils.parseEther("50"), 
 - Example with Transfer query
 <img width="750" height="237" alt="image" src="https://github.com/user-attachments/assets/af221bb9-19d8-40c1-98a7-32bd3864d17d" />
 
+
+## 8. Tests
