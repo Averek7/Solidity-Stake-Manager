@@ -33,12 +33,6 @@ const config: HardhatUserConfig = {
       type: "edr-simulated",
       chainType: "op",
     },
-    sepolia: {
-      type: "http",
-      chainType: "l1",
-      url: API_KEY ? `https://arb-sepolia.g.alchemy.com/v2/${API_KEY}` : "",
-      accounts: PRIVATE_KEY ? [`0x${PRIVATE_KEY}`] : [],
-    },
     arbitumSepolia: {
       type: "http",
       chainType: "l1",
@@ -50,7 +44,6 @@ const config: HardhatUserConfig = {
 
 export default config;
 
-
 // Deploying contracts with: 0x9Db62c5395b274B6589c2BCfCeAd35654eA8c386
-// ERC20Stub deployed to: 0x6c26e052d97dbE6763643E14FB8C9A23Ef32C7EE
-// StakeManager deployed to: 0xe1931272dDbaC1110575c0762F3FDB845e6d4A74
+// ERC20Stub deployed to: 0x9585d2e5ef4Ec3d2C9DcE4941C4690A5468c7fE6
+// StakeManager deployed to: 0x6b0D3Ff9c56EB81695E4935b069FaE9454f35A27

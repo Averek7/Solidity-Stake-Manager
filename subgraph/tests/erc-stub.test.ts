@@ -7,20 +7,23 @@ import {
   afterAll
 } from "matchstick-as/assembly/index"
 import { Address, BigInt } from "@graphprotocol/graph-ts"
-import { AddressTagged } from "../generated/schema"
-import { AddressTagged as AddressTaggedEvent } from "../generated/StakeManager/StakeManager"
-import { handleAddressTagged } from "../src/stake-manager"
-import { createAddressTaggedEvent } from "./stake-manager-utils"
+import { Approval } from "../generated/schema"
+import { Approval as ApprovalEvent } from "../generated/ErcStub/ErcStub"
+import { handleApproval } from "../src/erc-stub"
+import { createApprovalEvent } from "./erc-stub-utils"
 
 // Tests structure (matchstick-as >=0.5.0)
 // https://thegraph.com/docs/en/subgraphs/developing/creating/unit-testing-framework/#tests-structure
 
 describe("Describe entity assertions", () => {
   beforeAll(() => {
-    let addr = Address.fromString("0x0000000000000000000000000000000000000001")
-    let source = "Example string value"
-    let newAddressTaggedEvent = createAddressTaggedEvent(addr, source)
-    handleAddressTagged(newAddressTaggedEvent)
+    let owner = Address.fromString("0x0000000000000000000000000000000000000001")
+    let spender = Address.fromString(
+      "0x0000000000000000000000000000000000000001"
+    )
+    let value = BigInt.fromI32(234)
+    let newApprovalEvent = createApprovalEvent(owner, spender, value)
+    handleApproval(newApprovalEvent)
   })
 
   afterAll(() => {
@@ -30,21 +33,27 @@ describe("Describe entity assertions", () => {
   // For more test scenarios, see:
   // https://thegraph.com/docs/en/subgraphs/developing/creating/unit-testing-framework/#write-a-unit-test
 
-  test("AddressTagged created and stored", () => {
-    assert.entityCount("AddressTagged", 1)
+  test("Approval created and stored", () => {
+    assert.entityCount("Approval", 1)
 
     // 0xa16081f360e3847006db660bae1c6d1b2e17ec2a is the default address used in newMockEvent() function
     assert.fieldEquals(
-      "AddressTagged",
+      "Approval",
       "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
-      "addr",
+      "owner",
       "0x0000000000000000000000000000000000000001"
     )
     assert.fieldEquals(
-      "AddressTagged",
+      "Approval",
       "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
-      "source",
-      "Example string value"
+      "spender",
+      "0x0000000000000000000000000000000000000001"
+    )
+    assert.fieldEquals(
+      "Approval",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
+      "value",
+      "234"
     )
 
     // More assert options:

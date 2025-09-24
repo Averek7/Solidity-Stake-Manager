@@ -1,61 +1,75 @@
-<<<<<<< HEAD
-# Sample Hardhat 3 Beta Project (`mocha` and `ethers`)
+# Stake Manager Demo
 
-This project showcases a Hardhat 3 Beta project using `mocha` for tests and the `ethers` library for Ethereum interactions.
+Minimal Hardhat + Subgraph scaffold:
 
-To learn more about the Hardhat 3 Beta, please visit the [Getting Started guide](https://hardhat.org/docs/getting-started#getting-started-with-hardhat-3). To share your feedback, join our [Hardhat 3 Beta](https://hardhat.org/hardhat3-beta-telegram-group) Telegram group or [open an issue](https://github.com/NomicFoundation/hardhat/issues/new) in our GitHub issue tracker.
+- **ERC20Stub** token (minted to deployer)
+- **StakeManager** where users can stake tokens
+- A special caller can "tag" addresses and burn part of their stake
+- Subgraph indexes on-chain `AddressTagged` events and exposes a simple GraphQL query
 
-## Project Overview
+---
 
-This example project includes:
+## 1. Contracts
 
-- A simple Hardhat configuration file.
-- Foundry-compatible Solidity unit tests.
-- TypeScript integration tests using `mocha` and ethers.js
-- Examples demonstrating how to connect to different types of networks, including locally simulating OP mainnet.
+- **ERC20Stub** deployed: [`0x9585d2e5ef4Ec3d2C9DcE4941C4690A5468c7fE6`](https://sepolia.arbiscan.io/address/0x9585d2e5ef4Ec3d2C9DcE4941C4690A5468c7fE6)
+- **StakeManager** deployed: [`0x6b0D3Ff9c56EB81695E4935b069FaE9454f35A2`](https://sepolia.arbiscan.io/address/0x6b0D3Ff9c56EB81695E4935b069FaE9454f35A2)
 
-## Usage
+---
 
-### Running Tests
+## 2. Setup
 
-To run all the tests in the project, execute the following command:
-
-```shell
-npx hardhat test
+```bash
+git clone <this-repo>
+cd stake-manager
+npm install
 ```
 
-You can also selectively run the Solidity or `mocha` tests:
+---
 
-```shell
-npx hardhat test solidity
-npx hardhat test mocha
+## 3. Env
+
+```bash
+API_URL=https://arb-sepolia.g.alchemy.com/v2/<YOUR_KEY>
+PRIVATE_KEY=0x<your_private_key>
 ```
 
-### Make a deployment to Sepolia
+---
 
-This project includes an example Ignition module to deploy the contract. You can deploy this module to a locally simulated chain or to Sepolia.
+## 4. Deploy
 
-To run the deployment to a local chain:
-
-```shell
-npx hardhat ignition deploy ignition/modules/Counter.ts
+```bash
+npx hardhat compile
+npx hardhat run scripts/deploy.ts --network arbitrumSepolia
 ```
 
-To run the deployment to Sepolia, you need an account with funds to send the transaction. The provided Hardhat configuration includes a Configuration Variable called `SEPOLIA_PRIVATE_KEY`, which you can use to set the private key of the account you want to use.
+---
 
-You can set the `SEPOLIA_PRIVATE_KEY` variable using the `hardhat-keystore` plugin or by setting it as an environment variable.
+## 5. How to stake
 
-To set the `SEPOLIA_PRIVATE_KEY` config variable using `hardhat-keystore`:
+```bash
+const erc20 = await ethers.getContractAt("ERC20Stub", "<ERC20_ADDRESS>");
+const stakeManager = await ethers.getContractAt("StakeManager", "<STAKE_MANAGER_ADDRESS>");
 
-```shell
-npx hardhat keystore set SEPOLIA_PRIVATE_KEY
+// approve tokens
+await erc20.approve(stakeManager.address, ethers.utils.parseEther("100"));
+
+// stake tokens
+await stakeManager.stake(ethers.utils.parseEther("100"));
 ```
 
-After setting the variable, you can run the deployment with the Sepolia network:
+---
 
-```shell
-npx hardhat ignition deploy --network sepolia ignition/modules/Counter.ts
+## 6. Trigger a Burn
+
+```bash
+// burn 50 tokens from a staker
+await stakeManager.burnStaker("0xStakerAddress", ethers.utils.parseEther("50"), "fraud-detection");
 ```
-=======
-# Solidity-Stake-Manager
->>>>>>> ebe2383fbb9e7d0b5a88d7772031fef3448abe6d
+
+---
+
+## 7. 6. Subgraph
+
+- Subgraph indexes AddressTagged events.
+
+- Query endpoint: https://api.studio.thegraph.com/query/121495/subgraph/v0.0.1

@@ -1,7 +1,7 @@
 import {
   Approval as ApprovalEvent,
   Transfer as TransferEvent,
-} from "../generated/ERC20Stub/ERC20Stub"
+} from "../generated/ErcStub/ErcStub"
 import { Approval, Transfer } from "../generated/schema"
 
 export function handleApproval(event: ApprovalEvent): void {

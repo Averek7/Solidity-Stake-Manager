@@ -1,6 +1,6 @@
 import { newMockEvent } from "matchstick-as"
 import { ethereum, Address, BigInt } from "@graphprotocol/graph-ts"
-import { Approval, Transfer } from "../generated/ERC20Stub/ERC20Stub"
+import { Approval, Transfer } from "../generated/ErcStub/ErcStub"
 
 export function createApprovalEvent(
   owner: Address,

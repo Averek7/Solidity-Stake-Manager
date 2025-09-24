@@ -36,3 +36,26 @@ dataSources:
         - event: Unstaked(indexed address,uint256)
           handler: handleUnstaked
       file: ./src/contract.ts
+  - kind: ethereum
+    name: ErcStub
+    network: arbitrum-sepolia
+    source:
+      address: "0x9585d2e5ef4Ec3d2C9DcE4941C4690A5468c7fE6"
+      abi: ErcStub
+      startBlock: 197315634
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - Transfer
+      abis:
+        - name: ErcStub
+          file: ./abis/ErcStub.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/erc-stub.ts

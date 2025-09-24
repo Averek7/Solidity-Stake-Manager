@@ -1,5 +1,8 @@
 import { expect } from "chai";
 import { network } from "hardhat";
+// import type { StakeManager } from "../types/ethers-contracts/StakeManager";
+// import type { ERC20Stub } from "../types/ethers-contracts/ERC20Stub";
+import "@nomicfoundation/hardhat-toolbox-mocha-ethers";
 
 const { ethers } = await network.connect();
 
